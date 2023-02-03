@@ -1,3 +1,13 @@
-<p>books-page works!</p>
-<app-books-filter></app-books-filter>
-<app-books-list></app-books-list>
+<div>
+  <app-books-filter></app-books-filter>
+  <button mat-raised-button color="primary" (click)="addBook()">
+    Add book
+  </button>
+</div>
+<app-list-component
+  [dataSource]="booksList"
+  [columns]="columns"
+  (openedBook)="openCard($event)"
+></app-list-component>
+
+<app-book-card [book]="openedBook" *ngIf="openedBook"></app-book-card>
