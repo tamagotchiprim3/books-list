@@ -8,11 +8,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class CreateBookCardComponent {
   public bookForm: FormGroup;
+  public selectOpt: string[] = ['sheks', 'pushka', 'dostoevsky'];
 
   constructor(private fb: FormBuilder) {
     this.bookForm = this.fb.group({
-      name: ['', Validators.required],
+      title: ['', Validators.required],
       author: ['', Validators.required],
+      description: ['', Validators.required],
       pageCount: ['', Validators.required],
       language: ['', Validators.required],
       genre: ['', Validators.required],

@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { SelectComponent } from 'src/app/shared/components/controls/select/select.component';
+import { InputComponent } from '../../shared/components/controls/input/input.component';
 import { ListComponentComponent } from '../../shared/components/list-component/list-component.component';
 import { BooksPageRoutingModule } from './books-page-routing.module';
 import { BookCardComponent } from './components/book-card/book-card.component';
@@ -23,6 +25,8 @@ import { BooksPageComponent } from './pages/books-page/books-page.component';
     MatButtonModule,
     ListComponentComponent,
     ReactiveFormsModule,
+    InputComponent,
+    SelectComponent,
   ],
 })
 export class BooksPageModule {}

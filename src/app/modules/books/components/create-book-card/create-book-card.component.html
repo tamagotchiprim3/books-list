@@ -1,1 +1,43 @@
-<form [formGroup]="bookForm"></form>
+<form [formGroup]="bookForm">
+  <app-input
+    formControlName="title"
+    type="text"
+    label="Title"
+    placeholder="Book title"
+    errorMessage="Please, enter the title of the book"
+  ></app-input>
+  <app-select
+    formControlName="author"
+    label="Author"
+    errorMessage="Please, select an author"
+    [options]="selectOpt"
+  >
+  </app-select>
+  <app-input
+    formControlName="description"
+    type="textarea"
+    label="Description"
+    placeholder="Book description"
+  ></app-input>
+  <app-input
+    formControlName="pageCount"
+    type="number"
+    label="Pages quantity"
+    placeholder="number of pages"
+    errorMessage="Please, enter the number of pages"
+  ></app-input>
+  <app-select
+    formControlName="language"
+    label="Language"
+    errorMessage="Please, select a language"
+    [options]="selectOpt"
+  >
+  </app-select>
+  <app-input
+    formControlName="genre"
+    type="text"
+    label="Genre"
+    placeholder="genre of the book"
+    errorMessage="Please, enter the genre"
+  ></app-input>
+</form>

@@ -13,21 +13,21 @@ export class BooksPageComponent {
   public columns: IColumn[] = TABLE_COLUMNS;
   public booksList: IBook[] = [
     {
-      name: 'wer',
+      title: 'wer',
       author: 'wer',
       pageCount: 4,
       language: 'wer',
       genre: 'wer',
     },
     {
-      name: 'wer',
+      title: 'wer',
       author: 'wer',
       pageCount: 4,
       language: 'wer',
       genre: 'wer',
     },
     {
-      name: 'wer',
+      title: 'wer',
       author: 'wer',
       pageCount: 4,
       language: 'wer',
