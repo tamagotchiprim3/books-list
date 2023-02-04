@@ -1,16 +1,14 @@
 <mat-form-field
   appearance="fill"
+  [ngStyle]="{ width: width, height: height }"
   class="mat-field"
-  [ngStyle]="{ width: width }"
 >
   <mat-label class="input-label">{{ label }}</mat-label>
-  <input
+  <textarea
     matInput
     [formControl]="control"
     [placeholder]="placeholder"
-    [type]="type"
-    class="number-inputs"
-  />
+  ></textarea>
   <mat-error *ngIf="errorMessage && control.invalid && control.touched">
     {{ errorMessage }}
   </mat-error>

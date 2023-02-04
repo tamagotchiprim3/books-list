@@ -1,0 +1,21 @@
+:host {
+  display: block;
+  height: 100%;
+  ::ng-deep {
+    .mdc-data-table__cell {
+      color: white;
+      border-bottom: 1px solid rgba(98, 98, 98, 0.5);
+    }
+    .mdc-data-table__header-cell {
+      color: white;
+      border-bottom: 1px solid black;
+    }
+    .mdc-data-table__row:last-child .mdc-data-table__cell {
+      border-bottom: 1px solid rgba(98, 98, 98, 0.5);
+    }
+  }
+}
+
+.table-wrapper {
+  background: #222;
+}

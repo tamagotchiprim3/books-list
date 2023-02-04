@@ -1,14 +1,22 @@
-<div>
-  <app-books-filter></app-books-filter>
-  <button mat-raised-button color="primary" (click)="addBook()">
-    Add book
-  </button>
-</div>
-<app-list-component
-  [dataSource]="booksList"
-  [columns]="columns"
-  (openedBook)="openCard($event)"
-></app-list-component>
+<div class="books-page-wrapper">
+  <div class="books-page">
+    <div class="books-header">
+      <app-books-filter></app-books-filter>
+      <button
+        mat-raised-button
+        color="primary"
+        class="add-book-button"
+        (click)="addBook()"
+      >
+        Add book
+      </button>
+    </div>
 
-<app-book-card [book]="openedBook" *ngIf="openedBook"></app-book-card>
-<app-create-book-card></app-create-book-card>
+    <app-list-component
+      [dataSource]="booksList"
+      [columns]="columns"
+      class="books-table"
+      (openedBook)="openCard($event)"
+    ></app-list-component>
+  </div>
+</div>

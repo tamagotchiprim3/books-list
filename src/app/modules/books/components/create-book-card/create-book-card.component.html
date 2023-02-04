@@ -1,43 +1,63 @@
-<form [formGroup]="bookForm">
-  <app-input
-    formControlName="title"
-    type="text"
-    label="Title"
-    placeholder="Book title"
-    errorMessage="Please, enter the title of the book"
-  ></app-input>
-  <app-select
-    formControlName="author"
-    label="Author"
-    errorMessage="Please, select an author"
-    [options]="selectOpt"
-  >
-  </app-select>
-  <app-input
-    formControlName="description"
-    type="textarea"
-    label="Description"
-    placeholder="Book description"
-  ></app-input>
-  <app-input
-    formControlName="pageCount"
-    type="number"
-    label="Pages quantity"
-    placeholder="number of pages"
-    errorMessage="Please, enter the number of pages"
-  ></app-input>
-  <app-select
-    formControlName="language"
-    label="Language"
-    errorMessage="Please, select a language"
-    [options]="selectOpt"
-  >
-  </app-select>
-  <app-input
-    formControlName="genre"
-    type="text"
-    label="Genre"
-    placeholder="genre of the book"
-    errorMessage="Please, enter the genre"
-  ></app-input>
-</form>
+<div class="book-card-wrapper">
+  <h1 mat-dialog-title class="dialog-title">New book</h1>
+  <div mat-dialog-content class="book-form-wrapper">
+    <form [formGroup]="bookForm" class="book-form">
+      <app-input
+        formControlName="title"
+        type="text"
+        label="Title"
+        placeholder="Book title"
+        class="book-title"
+        errorMessage="Please, enter the title of the book"
+        width="450px"
+      ></app-input>
+      <app-select
+        formControlName="author"
+        label="Author"
+        errorMessage="Please, select an author"
+        [options]="selectOpt"
+      >
+      </app-select>
+      <app-input
+        formControlName="pageCount"
+        type="number"
+        label="Pages quantity"
+        placeholder="number of pages"
+        errorMessage="Please, enter the number of pages"
+      ></app-input>
+      <app-select
+        formControlName="language"
+        label="Language"
+        errorMessage="Please, select a language"
+        [options]="selectOpt"
+      >
+      </app-select>
+      <app-input
+        formControlName="genre"
+        type="text"
+        label="Genre"
+        placeholder="genre of the book"
+        errorMessage="Please, enter the genre"
+      ></app-input>
+      <app-textarea
+        formControlName="description"
+        label="Description"
+        placeholder="Book description"
+        width="100%"
+        height="100%"
+        class="book-description"
+      ></app-textarea>
+    </form>
+  </div>
+  <div mat-dialog-actions class="back-block">
+    <button mat-raised-button (click)="back()">Back</button>
+    <button
+      mat-raised-button
+      color="primary"
+      [mat-dialog-close]="bookForm.value"
+      cdkFocusInitial
+    >
+      Create
+    </button>
+  </div>
+</div>

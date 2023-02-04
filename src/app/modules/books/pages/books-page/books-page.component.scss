@@ -3,3 +3,40 @@
   width: 100%;
   height: 100%;
 }
+
+.books-page-wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.books-page {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  height: 85%;
+  background-color: #222;
+  border-radius: 25px;
+  box-shadow: 5px 5px 10px #222;
+  min-width: 800px;
+  min-height: 500px;
+}
+
+.books-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-book-button {
+  margin: 10px;
+  border-radius: 10px;
+  width: 100px;
+  box-shadow: 1px 1px 2px #3f51b5;
+}
+
+.books-table {
+  margin: 5px 15px;
+}

@@ -28,6 +28,7 @@ export class SelectComponent implements ControlValueAccessor {
   @Input() public label: string;
   @Input() public errorMessage: string;
   @Input() public options: string[];
+  @Input() public width: string = '300px';
 
   public control = new FormControl();
   public onChange: (value: string) => void;

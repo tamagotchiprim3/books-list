@@ -26,7 +26,7 @@ export class ListComponentComponent implements OnChanges {
   public displayedColumns: string[];
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['columns'].currentValue) {
+    if (changes['columns'] && changes['columns'].currentValue) {
       this.displayedColumns = this.columns.map((elem) => elem.fieldKey);
     }
   }

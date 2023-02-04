@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { IBook } from 'src/app/shared/interfaces/book.interface';
 import { IColumn } from 'src/app/shared/interfaces/column.interface';
+import { BookCardComponent } from '../../components/book-card/book-card.component';
+import { CreateBookCardComponent } from '../../components/create-book-card/create-book-card.component';
 import { TABLE_COLUMNS } from './constants/column.const';
 
 @Component({
@@ -11,33 +14,31 @@ import { TABLE_COLUMNS } from './constants/column.const';
 export class BooksPageComponent {
   public openedBook: IBook;
   public columns: IColumn[] = TABLE_COLUMNS;
-  public booksList: IBook[] = [
-    {
-      title: 'wer',
-      author: 'wer',
-      pageCount: 4,
-      language: 'wer',
-      genre: 'wer',
-    },
-    {
-      title: 'wer',
-      author: 'wer',
-      pageCount: 4,
-      language: 'wer',
-      genre: 'wer',
-    },
-    {
-      title: 'wer',
-      author: 'wer',
-      pageCount: 4,
-      language: 'wer',
-      genre: 'wer',
-    },
-  ];
+  public booksList?: IBook[];
 
-  public addBook(): void {}
+  constructor(private dialog: MatDialog) {}
+
+  public addBook(): void {
+    const dialogRef = this.dialog.open(CreateBookCardComponent);
+    dialogRef.afterClosed().subscribe((newBook: IBook) => {
+      if (newBook) {
+        console.log('newBook: ', newBook);
+        this.booksList = [newBook];
+        console.log('this.booksList: ', this.booksList);
+      }
+    });
+  }
 
   public openCard(element: IBook): void {
-    this.openedBook = element;
+    const dialogRef = this.dialog.open(BookCardComponent, {
+      data: {
+        title: element.title,
+        author: element.author,
+        pageCount: element.pageCount,
+        language: element.language,
+        genre: element.genre,
+        description: element.description,
+      },
+    });
   }
 }

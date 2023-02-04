@@ -1,1 +1,18 @@
-<p>book-card works!</p>
+<div class="book-card-wrapper">
+  <h1 mat-dialog-title class="book-title">{{ data.title }}</h1>
+
+  <div mat-dialog-content class="book-info">
+    <div><b>Author</b>: {{ data.author }}</div>
+    <div><b>Quantity of pages</b>: {{ data.pageCount }}</div>
+    <div><b>Language</b>: {{ data.language }}</div>
+    <div><b>Genre</b>: {{ data.genre }}</div>
+    <div>
+      <b>Description:</b>
+      <div class="book-description">{{ data.description }}</div>
+    </div>
+  </div>
+
+  <div mat-dialog-actions class="back-block">
+    <button mat-raised-button (click)="back()">back</button>
+  </div>
+</div>
