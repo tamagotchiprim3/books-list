@@ -1,0 +1,17 @@
+<div class="add-author-button">
+  <button
+    mat-raised-button
+    color="primary"
+    class="add-button"
+    (click)="addAuthor()"
+  >
+    Add author
+  </button>
+</div>
+<app-list-component
+  [data]="authorList"
+  [columns]="columns"
+  [paginationSettings]="pagination"
+  class="books-table"
+  (openedCard)="editAuthor($event)"
+></app-list-component>

@@ -3,10 +3,11 @@
   width: 100%;
   height: 100%;
 }
-.book-card-wrapper {
-  display: flex;
-  flex-direction: column;
+.author-card-wrapper {
+  display: grid;
+  grid-template-rows: 20% 60% 20%;
   align-items: center;
+  justify-items: center;
   width: 100%;
   height: 100%;
 }
@@ -24,13 +25,11 @@
   padding: 0px 15px;
 }
 
-.book-form {
-  display: grid;
+.author-input {
+  display: flex;
   height: 100%;
   width: 100%;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(3, 20%) 40%;
-  justify-items: center;
+  justify-content: center;
   align-items: center;
 }
 
@@ -38,12 +37,6 @@
   display: block;
   height: 10%;
   align-self: end;
-}
-
-.book-title {
-  grid-column: 1/3;
-}
-
-.book-description {
-  grid-column: 1/3;
+  justify-self: end;
+  margin: 15px;
 }

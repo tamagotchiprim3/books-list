@@ -14,8 +14,8 @@
       <app-select
         formControlName="author"
         label="Author"
-        errorMessage="Please, select an author"
-        [options]="selectOpt"
+        errorMessage="Please, enter an author"
+        [options]="selectAuthorOpt"
       >
       </app-select>
       <app-input
@@ -29,7 +29,7 @@
         formControlName="language"
         label="Language"
         errorMessage="Please, select a language"
-        [options]="selectOpt"
+        [options]="selectLangugeOpt"
       >
       </app-select>
       <app-input
@@ -43,19 +43,19 @@
         formControlName="description"
         label="Description"
         placeholder="Book description"
-        width="100%"
-        height="100%"
+        width="500px"
+        [rows]="10"
         class="book-description"
       ></app-textarea>
     </form>
   </div>
-  <div mat-dialog-actions class="back-block">
+  <div mat-dialog-actions class="buttons-block">
     <button mat-raised-button (click)="back()">Back</button>
     <button
       mat-raised-button
       color="primary"
-      [mat-dialog-close]="bookForm.value"
       cdkFocusInitial
+      (click)="submit()"
     >
       Create
     </button>

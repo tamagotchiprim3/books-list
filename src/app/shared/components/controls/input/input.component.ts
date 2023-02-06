@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import {
   ControlValueAccessor,
   FormControl,
@@ -21,6 +21,7 @@ import { MatInputModule } from '@angular/material/input';
     MatInputModule,
     MatFormFieldModule,
   ],
+  providers: [],
 })
 export class InputComponent implements ControlValueAccessor {
   @Input() public label: string;
@@ -33,7 +34,7 @@ export class InputComponent implements ControlValueAccessor {
   public onChange: (value: any) => void;
   public onTouched: () => void;
 
-  constructor(private ngControl: NgControl) {
+  constructor(private ngControl: NgControl, private cdr: ChangeDetectorRef) {
     ngControl.valueAccessor = this;
     if (ngControl.control) {
       this.control.setParent(ngControl.control.parent);
@@ -41,6 +42,7 @@ export class InputComponent implements ControlValueAccessor {
   }
 
   ngOnInit(): void {
+    this.initErrors();
     this.control.setValue(this.ngControl.control.value);
     this.control.valueChanges.subscribe((value: any) => {
       this.onChange(value);
@@ -48,13 +50,19 @@ export class InputComponent implements ControlValueAccessor {
   }
 
   ngDoCheck(): void {
-    if (this.ngControl.control.errors !== this.control.errors) {
+    if (this.ngControl.control?.errors !== this.control.errors) {
       this.initErrors();
     }
+    if (this.ngControl.control?.touched) {
+      this.control.markAsTouched();
+      this.cdr.markForCheck();
+    } else {
+      this.control.markAsPristine();
+    }
   }
-
   public writeValue(value: any): void {
     this.control.setValue(value);
+    this.cdr.detectChanges();
   }
   public registerOnChange(fn: any): void {
     this.onChange = fn;
@@ -63,7 +71,7 @@ export class InputComponent implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  public initErrors(): void {
-    this.control.setErrors(this.ngControl.control.errors);
+  protected initErrors(): void {
+    this.control.setErrors(this.ngControl.control!.errors);
   }
 }

@@ -1,0 +1,23 @@
+<div class="author-card-wrapper">
+  <h1 mat-dialog-title class="dialog-title">Author name</h1>
+
+  <app-input
+    [formControl]="authorControl"
+    type="text"
+    label="Author"
+    placeholder="Author name"
+    errorMessage="Please, enter an author"
+    class="author-input"
+  ></app-input>
+  <div mat-dialog-actions class="buttons-block">
+    <button mat-raised-button (click)="back()">Back</button>
+    <button
+      mat-raised-button
+      color="primary"
+      [mat-dialog-close]="authorControl.getRawValue()"
+      cdkFocusInitial
+    >
+      Create
+    </button>
+  </div>
+</div>

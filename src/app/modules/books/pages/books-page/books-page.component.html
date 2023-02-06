@@ -1,7 +1,14 @@
 <div class="books-page-wrapper">
   <div class="books-page">
     <div class="books-header">
-      <app-books-filter></app-books-filter>
+      <button
+        mat-raised-button
+        color="primary"
+        class="add-book-button"
+        (click)="openAuthors()"
+      >
+        Author list
+      </button>
       <button
         mat-raised-button
         color="primary"
@@ -13,10 +20,11 @@
     </div>
 
     <app-list-component
-      [dataSource]="booksList"
+      [data]="booksList"
       [columns]="columns"
       class="books-table"
-      (openedBook)="openCard($event)"
+      [paginationSettings]="pagination"
+      (openedCard)="openCard($event)"
     ></app-list-component>
   </div>
 </div>

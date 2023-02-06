@@ -1,16 +1,26 @@
-<table mat-table #table [dataSource]="dataSource" class="table-wrapper">
-  <ng-container *ngFor="let column of columns">
-    <ng-container [matColumnDef]="column.fieldKey">
-      <th mat-header-cell *matHeaderCellDef>{{ column.headerName }}</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element[column.fieldKey] }}
-      </td>
+<div class="list-wrapper">
+  <table mat-table #table [dataSource]="dataSource" class="table-wrapper">
+    <ng-container *ngFor="let column of columns">
+      <ng-container [matColumnDef]="column.fieldKey">
+        <th mat-header-cell *matHeaderCellDef>{{ column.headerName }}</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element[column.fieldKey] }}
+        </td>
+      </ng-container>
     </ng-container>
-  </ng-container>
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr
-    mat-row
-    *matRowDef="let row; columns: displayedColumns"
-    (click)="openBook(row)"
-  ></tr>
-</table>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns; let i = index"
+      (click)="openElement(row, i)"
+    ></tr>
+  </table>
+  <mat-paginator
+    [pageSize]="paginationSettings"
+    [hidePageSize]="true"
+    showFirstLastButtons
+    class="list-paginator"
+    aria-label="Select page of periodic elements"
+  >
+  </mat-paginator>
+</div>

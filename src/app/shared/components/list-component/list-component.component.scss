@@ -1,6 +1,7 @@
 :host {
   display: block;
-  height: 100%;
+  flex: 1;
+  padding: 25px;
   ::ng-deep {
     .mdc-data-table__cell {
       color: white;
@@ -13,9 +14,36 @@
     .mdc-data-table__row:last-child .mdc-data-table__cell {
       border-bottom: 1px solid rgba(98, 98, 98, 0.5);
     }
+    .mat-mdc-text-field-wrapper {
+      border: 1px solid white;
+    }
+    .mat-mdc-select-value-text {
+      color: white;
+    }
+    .mat-mdc-select-arrow {
+      color: white;
+    }
+    .mat-mdc-row:hover .mat-mdc-cell {
+      border-color: currentColor;
+    }
   }
 }
 
 .table-wrapper {
   background: #222;
+}
+.list-wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.mat-paginator {
+  background-color: transparent;
+}
+
+.list-paginator {
+  background-color: #222;
+  color: white;
 }

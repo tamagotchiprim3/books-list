@@ -1,11 +1,12 @@
 <mat-form-field
   appearance="fill"
-  [ngStyle]="{ width: width, height: height }"
   class="mat-field"
+  [ngStyle]="{ width: width }"
 >
-  <mat-label class="input-label">{{ label }}</mat-label>
+  <mat-label>{{ label }}</mat-label>
   <textarea
     matInput
+    [rows]="rows"
     [formControl]="control"
     [placeholder]="placeholder"
   ></textarea>

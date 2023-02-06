@@ -26,12 +26,16 @@
 
 .books-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 }
 
+.books-header > button:first-child {
+  margin-right: 0px;
+}
+
 .add-book-button {
-  margin: 10px;
+  margin: 20px;
   border-radius: 10px;
   width: 100px;
   box-shadow: 1px 1px 2px #3f51b5;

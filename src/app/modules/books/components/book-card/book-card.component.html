@@ -6,13 +6,15 @@
     <div><b>Quantity of pages</b>: {{ data.pageCount }}</div>
     <div><b>Language</b>: {{ data.language }}</div>
     <div><b>Genre</b>: {{ data.genre }}</div>
-    <div>
-      <b>Description:</b>
-      <div class="book-description">{{ data.description }}</div>
+    <div class="book-description">
+      <div>
+        <b>Description:</b>
+      </div>
+      <div>{{ data.description }}</div>
     </div>
   </div>
 
   <div mat-dialog-actions class="back-block">
-    <button mat-raised-button (click)="back()">back</button>
+    <button mat-raised-button color="primary" (click)="back()">Back</button>
   </div>
 </div>
