@@ -1,30 +1,66 @@
 <div class="books-page-wrapper">
   <div class="books-page">
-    <div class="books-header">
-      <button
-        mat-raised-button
-        color="primary"
-        class="add-book-button"
-        (click)="openAuthors()"
+    <div class="books-filter" [formGroup]="filters">
+      <app-input
+        formControlName="books"
+        type="text"
+        label="Book"
+        placeholder="Enter a book"
+      ></app-input>
+      <app-slider
+        formControlName="pages"
+        label="Pages range"
+        [min]="minPages"
+        [max]="maxPages"
+      ></app-slider>
+      <app-select
+        formControlName="authors"
+        label="Authors"
+        [options]="selectAuthorsOpt"
+        [multiple]="true"
       >
-        Author list
-      </button>
-      <button
-        mat-raised-button
-        color="primary"
-        class="add-book-button"
-        (click)="addBook()"
+      </app-select>
+      <app-select
+        formControlName="languages"
+        label="Languages"
+        [options]="selectLanguagesOpt"
+        [multiple]="true"
       >
-        Add book
-      </button>
+      </app-select>
+      <app-select
+        formControlName="genre"
+        label="Genre"
+        [options]="selectGenreOpt"
+      >
+      </app-select>
     </div>
+    <div class="books-main">
+      <div class="books-header">
+        <button
+          mat-raised-button
+          color="primary"
+          class="add-book-button"
+          (click)="openAuthors()"
+        >
+          Author list
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          class="add-book-button"
+          (click)="addBook()"
+        >
+          Add book
+        </button>
+      </div>
 
-    <app-list-component
-      [data]="booksList"
-      [columns]="columns"
-      class="books-table"
-      [paginationSettings]="pagination"
-      (openedCard)="openCard($event)"
-    ></app-list-component>
+      <app-list-component
+        [data]="isFiltered ? filteredList : booksList"
+        [columns]="columns"
+        class="books-table"
+        [paginationSettings]="pagination"
+        (openedCard)="openCard($event)"
+      ></app-list-component>
+    </div>
   </div>
 </div>

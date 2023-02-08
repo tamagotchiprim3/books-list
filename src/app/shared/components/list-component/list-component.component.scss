@@ -1,7 +1,7 @@
 :host {
   display: block;
-  flex: 1;
-  padding: 25px;
+  height: 100%;
+  padding: 0px 25px;
   ::ng-deep {
     .mdc-data-table__cell {
       color: white;

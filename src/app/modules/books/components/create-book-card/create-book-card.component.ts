@@ -13,7 +13,6 @@ import { BookCardComponent } from '../book-card/book-card.component';
 })
 export class CreateBookCardComponent implements OnInit {
   public bookForm: FormGroup;
-  public submittedBook: IBook;
   public selectAuthorOpt: string[];
   public selectLangugeOpt: string[] = LANGUAGES_OPT;
 
@@ -46,13 +45,11 @@ export class CreateBookCardComponent implements OnInit {
   }
 
   public submit(): void {
-    console.log('this.bookForm: ', this.bookForm);
     if (!this.bookForm.valid) {
       this.bookForm.markAllAsTouched();
       return;
     }
-    this.submittedBook = this.bookForm.getRawValue();
     this.cdR.markForCheck();
-    this.dialogRef.close();
+    this.dialogRef.close(this.bookForm.getRawValue());
   }
 }

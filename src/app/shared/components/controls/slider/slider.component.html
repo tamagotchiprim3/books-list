@@ -1,0 +1,16 @@
+<div>
+  <div>
+    <label class="label-color"> {{ label }}</label>
+  </div>
+  <mat-slider
+    [formGroup]="control"
+    [min]="min"
+    [max]="max"
+    showTickMarks
+    discrete
+    class="slider"
+  >
+    <input formControlName="lowerValue" [value]="min" matSliderStartThumb />
+    <input formControlName="higherValue" [value]="max" matSliderEndThumb />
+  </mat-slider>
+</div>

@@ -1,50 +1,71 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import {
-  ControlValueAccessor,
-  FormControl,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
   FormsModule,
   NgControl,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSliderModule } from '@angular/material/slider';
 @Component({
   standalone: true,
-  selector: 'app-select',
-  templateUrl: './select.component.html',
-  styleUrls: ['./select.component.scss'],
+  selector: 'app-slider',
+  templateUrl: './slider.component.html',
+  styleUrls: ['./slider.component.scss'],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
     MatInputModule,
     MatFormFieldModule,
-    MatSelectModule,
+    MatSliderModule,
   ],
 })
-export class SelectComponent implements ControlValueAccessor {
+export class SliderComponent implements OnChanges {
   @Input() public label: string;
   @Input() public errorMessage: string;
-  @Input() public options: string[];
   @Input() public width: string = '300px';
-  @Input() public multiple: boolean = false;
+  @Input() public min: number;
+  @Input() public max: number;
 
-  public control = new FormControl();
+  public control: FormGroup;
   public onChange: (value: string) => void;
   public onTouched: () => void;
 
-  constructor(private ngControl: NgControl, private cdr: ChangeDetectorRef) {
+  constructor(
+    private fb: FormBuilder,
+    private ngControl: NgControl,
+    private cdr: ChangeDetectorRef
+  ) {
+    this.control = this.fb.group({
+      lowerValue: [this.min],
+      higherValue: [this.max],
+    });
     ngControl.valueAccessor = this;
     if (ngControl.control) {
       this.control.setParent(ngControl.control.parent);
     }
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['min'] && changes['min'].currentValue) {
+      this.control.patchValue({ lowerValue: this.min });
+    }
+    if (changes['max'] && changes['max'].currentValue) {
+      this.control.patchValue({ higherValue: this.max });
+    }
+  }
 
   ngOnInit(): void {
     this.initErrors();
-    this.control.setValue(this.ngControl.control.value);
     this.control.valueChanges.subscribe((value: any) => {
       this.onChange(value);
     });
@@ -62,9 +83,11 @@ export class SelectComponent implements ControlValueAccessor {
     }
   }
 
-  public writeValue(value: string): void {
-    this.control.setValue(value);
-    this.cdr.detectChanges();
+  public writeValue(value: { lowerValue: number; higherValue: number }): void {
+    if (value) {
+      this.control.setValue(value);
+      this.cdr.detectChanges();
+    }
   }
   public registerOnChange(fn: any): void {
     this.onChange = fn;
