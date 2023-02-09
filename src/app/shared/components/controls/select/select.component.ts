@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+} from '@angular/core';
 import {
   ControlValueAccessor,
   FormControl,
@@ -15,6 +20,8 @@ import { MatSelectModule } from '@angular/material/select';
   selector: 'app-select',
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+
   imports: [
     CommonModule,
     ReactiveFormsModule,

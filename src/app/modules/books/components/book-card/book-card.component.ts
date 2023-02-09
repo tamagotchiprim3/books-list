@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IBook } from 'src/app/shared/interfaces/book.interface';
 
@@ -6,6 +6,7 @@ import { IBook } from 'src/app/shared/interfaces/book.interface';
   selector: 'app-book-card',
   templateUrl: './book-card.component.html',
   styleUrls: ['./book-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BookCardComponent {
   constructor(

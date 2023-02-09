@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -17,6 +18,8 @@ import { IColumn } from '../../interfaces/column.interface';
   selector: 'app-list-component',
   templateUrl: './list-component.component.html',
   styleUrls: ['./list-component.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+
   imports: [CommonModule, MatTableModule, MatPaginatorModule],
 })
 export class ListComponentComponent

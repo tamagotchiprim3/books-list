@@ -1,4 +1,9 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DoCheck,
+  OnInit,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DEF_AUTHORS_OPT } from 'src/app/shared/constants/authors.const';
@@ -14,6 +19,7 @@ import { TABLE_COLUMNS } from './constants/column.const';
   selector: 'app-books-page',
   templateUrl: './books-page.component.html',
   styleUrls: ['./books-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BooksPageComponent implements OnInit, DoCheck {
   public filters: FormGroup;
@@ -92,16 +98,14 @@ export class BooksPageComponent implements OnInit, DoCheck {
               : true;
           })
           .filter((item) => {
-            console.log(item.title.match(filters.books));
             return filters.books
-              ? item.title.match(filters.books) ||
-                  item.description.match(filters.books)
+              ? item.title.toLowerCase().match(filters.books.toLowerCase()) ||
+                  item.description
+                    .toLowerCase()
+                    .match(filters.books.toLowerCase())
               : true;
           }),
       ];
-      console.log('filters: ', filters);
-      console.log('this.isFiltered: ', this.isFiltered);
-      console.log('this.filteredList', this.filteredList);
     });
   }
 

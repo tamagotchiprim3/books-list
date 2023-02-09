@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  OnInit,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DEF_AUTHORS_OPT } from 'src/app/shared/constants/authors.const';
@@ -10,6 +16,7 @@ import { BookCardComponent } from '../book-card/book-card.component';
   selector: 'app-create-book-card',
   templateUrl: './create-book-card.component.html',
   styleUrls: ['./create-book-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateBookCardComponent implements OnInit {
   public bookForm: FormGroup;

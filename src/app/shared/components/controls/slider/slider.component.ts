@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   Input,
@@ -21,6 +22,8 @@ import { MatSliderModule } from '@angular/material/slider';
   selector: 'app-slider',
   templateUrl: './slider.component.html',
   styleUrls: ['./slider.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+
   imports: [
     CommonModule,
     ReactiveFormsModule,
