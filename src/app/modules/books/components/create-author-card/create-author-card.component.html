@@ -14,8 +14,8 @@
     <button
       mat-raised-button
       color="primary"
-      [mat-dialog-close]="authorControl.getRawValue()"
       cdkFocusInitial
+      (click)="submit()"
     >
       Create
     </button>

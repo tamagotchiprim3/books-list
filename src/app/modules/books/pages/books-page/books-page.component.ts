@@ -1,19 +1,19 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
-  DoCheck,
   OnInit,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DEF_AUTHORS_OPT } from 'src/app/shared/constants/authors.const';
+import { LANGUAGES_OPT } from 'src/app/shared/constants/languages.const';
 import { BOOKS_PAGINATION } from 'src/app/shared/constants/paginations.conts';
 import { IBook } from 'src/app/shared/interfaces/book.interface';
 import { IColumn } from 'src/app/shared/interfaces/column.interface';
 import { AuthorsCardComponent } from '../../components/authors-card/authors-card.component';
 import { BookCardComponent } from '../../components/book-card/book-card.component';
 import { CreateBookCardComponent } from '../../components/create-book-card/create-book-card.component';
-import { LANGUAGES_OPT } from './../../../../shared/constants/languages.const';
 import { TABLE_COLUMNS } from './constants/column.const';
 @Component({
   selector: 'app-books-page',
@@ -21,7 +21,7 @@ import { TABLE_COLUMNS } from './constants/column.const';
   styleUrls: ['./books-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BooksPageComponent implements OnInit, DoCheck {
+export class BooksPageComponent implements OnInit {
   public filters: FormGroup;
   public filteredList: IBook[] = null;
   public isFiltered: boolean;
@@ -34,8 +34,11 @@ export class BooksPageComponent implements OnInit, DoCheck {
   public pagination = BOOKS_PAGINATION;
   public columns: IColumn[] = TABLE_COLUMNS;
   public booksList?: IBook[] = [];
-
-  constructor(private fb: FormBuilder, private dialog: MatDialog) {
+  constructor(
+    private fb: FormBuilder,
+    private dialog: MatDialog,
+    private cdr: ChangeDetectorRef
+  ) {
     this.filters = fb.group({
       books: [],
       pages: [],
@@ -44,8 +47,12 @@ export class BooksPageComponent implements OnInit, DoCheck {
       genre: [],
     });
   }
-
   ngOnInit(): void {
+    if (localStorage.getItem('authors')) {
+      this.selectAuthorsOpt = JSON.parse(localStorage.getItem('authors'));
+    } else {
+      this.selectAuthorsOpt = DEF_AUTHORS_OPT;
+    }
     if (localStorage.getItem('books')) {
       this.booksList = [...JSON.parse(localStorage.getItem('books'))];
       this.minPages = +JSON.parse(localStorage.getItem('books'))
@@ -58,6 +65,15 @@ export class BooksPageComponent implements OnInit, DoCheck {
         lowerValue: +this.minPages,
         higherValue: +this.maxPages,
       });
+      this.selectGenreOpt = JSON.parse(localStorage.getItem('books'))
+        .map((book: IBook) => book.genre)
+        .filter(
+          (item: any, index: any) =>
+            JSON.parse(localStorage.getItem('books'))
+              .map((book: IBook) => book.genre)
+              .indexOf(item) === index
+        );
+      this.selectGenreOpt.unshift('-');
     }
 
     this.filters.valueChanges.subscribe((filters) => {
@@ -70,7 +86,6 @@ export class BooksPageComponent implements OnInit, DoCheck {
           this.isFiltered = true;
         }
       }
-
       this.filteredList = [
         ...this.booksList
           .filter((item) => {
@@ -83,7 +98,9 @@ export class BooksPageComponent implements OnInit, DoCheck {
               : true;
           })
           .filter((item) => {
-            return filters.genre ? filters.genre === item.genre : true;
+            return filters.genre && filters.genre !== '-'
+              ? filters.genre === item.genre
+              : true;
           })
           .filter((item) => {
             return filters.authors && filters.authors.length > 0
@@ -109,24 +126,6 @@ export class BooksPageComponent implements OnInit, DoCheck {
     });
   }
 
-  ngDoCheck(): void {
-    if (localStorage.getItem('books')) {
-      this.selectGenreOpt = JSON.parse(localStorage.getItem('books'))
-        .map((book: IBook) => book.genre)
-        .filter(
-          (item: any, index: any) =>
-            JSON.parse(localStorage.getItem('books'))
-              .map((book: IBook) => book.genre)
-              .indexOf(item) === index
-        );
-    }
-    if (localStorage.getItem('authors')) {
-      this.selectAuthorsOpt = JSON.parse(localStorage.getItem('authors'));
-    } else {
-      this.selectAuthorsOpt = DEF_AUTHORS_OPT;
-    }
-  }
-
   public addBook(): void {
     const dialogRef = this.dialog.open(CreateBookCardComponent);
     dialogRef.afterClosed().subscribe((newBook: IBook) => {
@@ -134,22 +133,26 @@ export class BooksPageComponent implements OnInit, DoCheck {
         this.booksList = [...this.booksList, newBook];
         if (this.selectGenreOpt) {
           this.selectGenreOpt = [...this.selectGenreOpt, newBook.genre];
+          this.selectGenreOpt.unshift('-');
         } else {
           this.selectGenreOpt = [newBook.genre];
+          this.selectGenreOpt.unshift('-');
         }
-
         if (newBook.pageCount < this.minPages) {
           this.minPages = newBook.pageCount;
         }
         if (newBook.pageCount > this.maxPages) {
           this.maxPages = newBook.pageCount;
         }
-
+        this.filters.get('pages').setValue({
+          lowerValue: +this.minPages,
+          higherValue: +this.maxPages,
+        });
         localStorage.setItem('books', JSON.stringify(this.booksList));
+        this.cdr.markForCheck();
       }
     });
   }
-
   public openCard(element: [IBook, number]): void {
     const dialogRef = this.dialog.open(BookCardComponent, {
       data: {
@@ -162,21 +165,18 @@ export class BooksPageComponent implements OnInit, DoCheck {
       },
     });
   }
-
   public openAuthors(): void {
     const dialogRef = this.dialog.open(AuthorsCardComponent);
-  }
+    dialogRef.afterClosed().subscribe((authors) => {
+      console.log('authors: ', authors);
 
-  public filter(list: IBook[]): void {
-    if (!this.filteredList) {
-      this.filteredList = list;
-    } else {
-      this.filteredList.filter((item) => {
-        list.forEach((book) => JSON.stringify(book) === JSON.stringify(item));
-      });
-    }
+      this.selectAuthorsOpt = authors.map(
+        (author: { author: string }) => author.author
+      );
+      if (localStorage.getItem('books')) {
+        this.booksList = [...JSON.parse(localStorage.getItem('books'))];
+      }
+      this.cdr.markForCheck();
+    });
   }
-}
-function ngDoCheck() {
-  throw new Error('Function not implemented.');
 }

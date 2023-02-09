@@ -51,8 +51,19 @@ export class InputComponent implements ControlValueAccessor {
   ngOnInit(): void {
     this.initErrors();
     this.control.setValue(this.ngControl.control.value);
-    this.control.valueChanges.subscribe((value: any) => {
-      this.onChange(value);
+    this.control.valueChanges.subscribe((value: number) => {
+      if (Math.sign(value) === -1) {
+        this.control.setValue('');
+        this.onChange('');
+      } else {
+        this.onChange(value);
+      }
+      if (value > 10000) {
+        this.control.setValue('');
+        this.onChange('');
+      } else {
+        this.onChange(value);
+      }
     });
   }
 

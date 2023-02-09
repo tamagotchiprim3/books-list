@@ -3,7 +3,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DoCheck,
   Input,
+  OnInit,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -21,7 +23,6 @@ import { MatSelectModule } from '@angular/material/select';
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -31,7 +32,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatSelectModule,
   ],
 })
-export class SelectComponent implements ControlValueAccessor {
+export class SelectComponent implements ControlValueAccessor, DoCheck, OnInit {
   @Input() public label: string;
   @Input() public errorMessage: string;
   @Input() public options: string[];
@@ -81,6 +82,6 @@ export class SelectComponent implements ControlValueAccessor {
   }
 
   protected initErrors(): void {
-    this.control.setErrors(this.ngControl.control!.errors);
+    this.control.setErrors(this.ngControl.control?.errors);
   }
 }

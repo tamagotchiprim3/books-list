@@ -1,5 +1,10 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Inject,
+} from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthorsCardComponent } from '../authors-card/authors-card.component';
 
@@ -10,22 +15,25 @@ import { AuthorsCardComponent } from '../authors-card/authors-card.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateAuthorCardComponent {
-  public authorControl: FormControl = new FormControl();
-  public submittedAuthor: string;
+  public authorControl: FormControl = new FormControl('', Validators.required);
 
   constructor(
     public dialogRef: MatDialogRef<AuthorsCardComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: string
+    @Inject(MAT_DIALOG_DATA) public data: string,
+    private cdr: ChangeDetectorRef
   ) {}
+
   public back(): void {
     this.dialogRef.close();
   }
 
-  // public submit(): void {
-  //   if (this.authorControl.valid) {
-  //     this.data = this.authorControl.getRawValue();
-  //     this.dialogRef.close();
-  //   }
-  //   return;
-  // }
+  public submit(): void {
+    console.log('this.authorControl: ', this.authorControl);
+    if (!this.authorControl.valid) {
+      this.authorControl.markAllAsTouched();
+      return;
+    }
+    this.cdr.markForCheck();
+    this.dialogRef.close(this.authorControl.getRawValue());
+  }
 }

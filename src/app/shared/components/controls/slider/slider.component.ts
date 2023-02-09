@@ -88,7 +88,10 @@ export class SliderComponent implements OnChanges {
 
   public writeValue(value: { lowerValue: number; higherValue: number }): void {
     if (value) {
-      this.control.setValue(value);
+      console.log('value: ', value);
+      this.control.get('lowerValue').setValue(value.lowerValue);
+      this.control.get('higherValue').setValue(value.higherValue);
+      console.log(this.control.value);
       this.cdr.detectChanges();
     }
   }
@@ -100,6 +103,6 @@ export class SliderComponent implements OnChanges {
   }
 
   protected initErrors(): void {
-    this.control.setErrors(this.ngControl.control!.errors);
+    this.control.setErrors(this.ngControl.control?.errors);
   }
 }

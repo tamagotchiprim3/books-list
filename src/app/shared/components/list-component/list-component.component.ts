@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -34,9 +35,13 @@ export class ListComponentComponent
   public displayedColumns: string[];
   public dataSource: MatTableDataSource<any>;
 
+  constructor(private cdr: ChangeDetectorRef) {}
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data'] && changes['data'].currentValue) {
       this.dataSource = new MatTableDataSource<any>(this.data);
+      this.dataSource.paginator = this.paginator;
+      this.cdr.markForCheck();
     }
     if (changes['columns'] && changes['columns'].currentValue) {
       this.displayedColumns = this.columns.map((elem) => elem.fieldKey);

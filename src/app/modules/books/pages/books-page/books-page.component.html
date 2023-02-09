@@ -2,18 +2,21 @@
   <div class="books-page">
     <div class="books-filter" [formGroup]="filters">
       <app-input
+        *ngIf="this.booksList.length > 0"
         formControlName="books"
         type="text"
         label="Book"
         placeholder="Enter a book"
       ></app-input>
       <app-slider
+        *ngIf="this.booksList.length > 1"
         formControlName="pages"
         label="Pages range"
         [min]="minPages"
         [max]="maxPages"
       ></app-slider>
       <app-select
+        *ngIf="this.booksList.length > 0"
         formControlName="authors"
         label="Authors"
         [options]="selectAuthorsOpt"
@@ -21,6 +24,7 @@
       >
       </app-select>
       <app-select
+        *ngIf="this.booksList.length > 0"
         formControlName="languages"
         label="Languages"
         [options]="selectLanguagesOpt"
@@ -28,6 +32,7 @@
       >
       </app-select>
       <app-select
+        *ngIf="selectGenreOpt"
         formControlName="genre"
         label="Genre"
         [options]="selectGenreOpt"
