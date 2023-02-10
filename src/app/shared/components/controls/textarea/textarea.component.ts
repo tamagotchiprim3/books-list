@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DoCheck,
   Input,
   OnInit,
 } from '@angular/core';
@@ -31,7 +32,9 @@ import { MatInputModule } from '@angular/material/input';
     MatFormFieldModule,
   ],
 })
-export class TextareaComponent implements ControlValueAccessor, OnInit {
+export class TextareaComponent
+  implements ControlValueAccessor, OnInit, DoCheck
+{
   @Input() public label: string;
   @Input() public placeholder: string;
   @Input() public errorMessage: string;

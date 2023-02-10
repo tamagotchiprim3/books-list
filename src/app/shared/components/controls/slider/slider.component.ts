@@ -3,11 +3,12 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DoCheck,
   Input,
-  OnChanges,
-  SimpleChanges,
+  OnInit,
 } from '@angular/core';
 import {
+  ControlValueAccessor,
   FormBuilder,
   FormGroup,
   FormsModule,
@@ -33,7 +34,9 @@ import { MatSliderModule } from '@angular/material/slider';
     MatSliderModule,
   ],
 })
-export class SliderComponent implements OnChanges {
+export default class SliderComponent
+  implements ControlValueAccessor, OnInit, DoCheck
+{
   @Input() public label: string;
   @Input() public errorMessage: string;
   @Input() public width: string = '300px';
@@ -50,20 +53,12 @@ export class SliderComponent implements OnChanges {
     private cdr: ChangeDetectorRef
   ) {
     this.control = this.fb.group({
-      lowerValue: [this.min],
-      higherValue: [this.max],
+      lowerValue: [],
+      higherValue: [],
     });
     ngControl.valueAccessor = this;
     if (ngControl.control) {
       this.control.setParent(ngControl.control.parent);
-    }
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['min'] && changes['min'].currentValue) {
-      this.control.patchValue({ lowerValue: this.min });
-    }
-    if (changes['max'] && changes['max'].currentValue) {
-      this.control.patchValue({ higherValue: this.max });
     }
   }
 
@@ -88,10 +83,8 @@ export class SliderComponent implements OnChanges {
 
   public writeValue(value: { lowerValue: number; higherValue: number }): void {
     if (value) {
-      console.log('value: ', value);
       this.control.get('lowerValue').setValue(value.lowerValue);
       this.control.get('higherValue').setValue(value.higherValue);
-      console.log(this.control.value);
       this.cdr.detectChanges();
     }
   }

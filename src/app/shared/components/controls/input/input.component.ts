@@ -3,7 +3,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DoCheck,
   Input,
+  OnInit,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -30,7 +32,7 @@ import { MatInputModule } from '@angular/material/input';
   ],
   providers: [],
 })
-export class InputComponent implements ControlValueAccessor {
+export class InputComponent implements ControlValueAccessor, OnInit, DoCheck {
   @Input() public label: string;
   @Input() public placeholder: string;
   @Input() public type: string;
@@ -52,13 +54,13 @@ export class InputComponent implements ControlValueAccessor {
     this.initErrors();
     this.control.setValue(this.ngControl.control.value);
     this.control.valueChanges.subscribe((value: number) => {
-      if (Math.sign(value) === -1) {
+      if (Math.sign(value) === -1 && this.type === 'number') {
         this.control.setValue('');
         this.onChange('');
       } else {
         this.onChange(value);
       }
-      if (value > 10000) {
+      if (value > 10000 && this.type === 'number') {
         this.control.setValue('');
         this.onChange('');
       } else {

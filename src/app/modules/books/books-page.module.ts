@@ -11,7 +11,7 @@ import {
 } from '@angular/material/dialog';
 import { SelectComponent } from 'src/app/shared/components/controls/select/select.component';
 import { InputComponent } from '../../shared/components/controls/input/input.component';
-import { SliderComponent } from '../../shared/components/controls/slider/slider.component';
+import SliderComponent from '../../shared/components/controls/slider/slider.component';
 import { TextareaComponent } from '../../shared/components/controls/textarea/textarea.component';
 import { ListComponentComponent } from '../../shared/components/list-component/list-component.component';
 import { BooksPageRoutingModule } from './books-page-routing.module';

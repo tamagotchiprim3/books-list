@@ -10,7 +10,15 @@
     discrete
     class="slider"
   >
-    <input formControlName="lowerValue" [value]="min" matSliderStartThumb />
-    <input formControlName="higherValue" [value]="max" matSliderEndThumb />
+    <input
+      formControlName="lowerValue"
+      [value]="+this.control.get('lowerValue').value"
+      matSliderStartThumb
+    />
+    <input
+      formControlName="higherValue"
+      [value]="+this.control.get('higherValue').value"
+      matSliderEndThumb
+    />
   </mat-slider>
 </div>

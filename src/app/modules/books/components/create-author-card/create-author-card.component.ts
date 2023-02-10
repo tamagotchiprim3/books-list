@@ -29,6 +29,13 @@ export class CreateAuthorCardComponent {
 
   public submit(): void {
     console.log('this.authorControl: ', this.authorControl);
+    if (
+      JSON.parse(localStorage.getItem('authors')).includes(
+        this.authorControl.value
+      )
+    ) {
+      this.authorControl.setErrors({ similar: true });
+    }
     if (!this.authorControl.valid) {
       this.authorControl.markAllAsTouched();
       return;

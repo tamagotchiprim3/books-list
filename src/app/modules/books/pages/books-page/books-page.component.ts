@@ -47,6 +47,7 @@ export class BooksPageComponent implements OnInit {
       genre: [],
     });
   }
+
   ngOnInit(): void {
     if (localStorage.getItem('authors')) {
       this.selectAuthorsOpt = JSON.parse(localStorage.getItem('authors'));
@@ -124,6 +125,7 @@ export class BooksPageComponent implements OnInit {
           }),
       ];
     });
+    this.cdr.markForCheck();
   }
 
   public addBook(): void {
@@ -131,23 +133,33 @@ export class BooksPageComponent implements OnInit {
     dialogRef.afterClosed().subscribe((newBook: IBook) => {
       if (newBook) {
         this.booksList = [...this.booksList, newBook];
-        if (this.selectGenreOpt) {
+
+        if (
+          this.selectGenreOpt &&
+          !this.selectGenreOpt.includes(newBook.genre)
+        ) {
           this.selectGenreOpt = [...this.selectGenreOpt, newBook.genre];
-          this.selectGenreOpt.unshift('-');
         } else {
           this.selectGenreOpt = [newBook.genre];
+        }
+        if (this.selectGenreOpt[0] !== '-') {
           this.selectGenreOpt.unshift('-');
         }
-        if (newBook.pageCount < this.minPages) {
-          this.minPages = newBook.pageCount;
+        if (this.booksList.length >= 2) {
+          const sortBooks = this.booksList.sort(
+            (a: IBook, b: IBook) => a.pageCount - b.pageCount
+          );
+          this.filters.get('pages').setValue({
+            lowerValue: +sortBooks[0].pageCount,
+            higherValue: +sortBooks[sortBooks.length - 1].pageCount,
+          });
+          this.minPages = +sortBooks[0].pageCount;
+          this.maxPages = +sortBooks[sortBooks.length - 1].pageCount;
         }
-        if (newBook.pageCount > this.maxPages) {
-          this.maxPages = newBook.pageCount;
-        }
-        this.filters.get('pages').setValue({
-          lowerValue: +this.minPages,
-          higherValue: +this.maxPages,
-        });
+
+        this.filteredList = [...this.booksList];
+        console.log('this.booksList: ', this.booksList);
+        console.log('this.filteredList: ', this.filteredList);
         localStorage.setItem('books', JSON.stringify(this.booksList));
         this.cdr.markForCheck();
       }
@@ -174,6 +186,7 @@ export class BooksPageComponent implements OnInit {
         (author: { author: string }) => author.author
       );
       if (localStorage.getItem('books')) {
+        this.filteredList = [...JSON.parse(localStorage.getItem('books'))];
         this.booksList = [...JSON.parse(localStorage.getItem('books'))];
       }
       this.cdr.markForCheck();
